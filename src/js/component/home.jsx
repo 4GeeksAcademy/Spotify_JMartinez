@@ -8,8 +8,10 @@ import rigoImage from "../../img/rigo-baby.jpg";
 
 const Home = () => {
 
-	const [caso, setCaso] = useState()
+
+
 	const fondo = { height: "100%", width: "100%" }
+	const [caso, setCaso] = useState()
 	const [repl, setRepl] = useState("block")
 	const [pausel, setPausel] = useState("none")
 
@@ -28,28 +30,23 @@ const Home = () => {
 
 	}
 
-	let canci = cancion.map
-	console.log(canci)
-
 
 	function play() {
 
-		console.log(canci)
-
-		if (repl == "block") {
-
+		if (botoAudio.current.paused) {
 			botoAudio.current.play()
 			setRepl("none")
 			setPausel("block")
+
 		} else {
 			setPausel("none")
 			setRepl("block")
-
 			botoAudio.current.pause()
 
 		}
 
 	}
+
 	useEffect(function () {
 
 		obtenerInfo()
@@ -58,8 +55,25 @@ const Home = () => {
 
 
 	function sig() {
+		if (caso < cancion.length) {
+			setCaso(caso + 1)
+			imprimir(caso)
+		} else if (caso == cancion.length) {
+			imprimir(caso)
+			setCaso(caso - caso)
+
+
+		}
+	}
+	function imprimir(num) {
+		let ran = 'https://assets.breatheco.de/apis/sound/' + cancion[num].url
+		botoAudio.current.src = ran
+		console.log(botoAudio.current)
+		play()
 
 	}
+
+
 
 	return (
 		<div className="text-start" style={fondo}>
@@ -67,19 +81,20 @@ const Home = () => {
 				<div className="col-6 m-auto " >
 					<div className="overflow-auto" style={stylebotton} id="list-tab" role="tablist"  >
 						<div className="list-group" id="list-tab" role="tablist" style={stylebotton}  >
-							{cancion.map(function (item) { return <a className="col text-white bg-black p-3 list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab" key={item.id} onClick={() => setUrl(item.url)}>{item.id + " " + item.name + " " + "-"}</a> })}
+							{cancion.map(function (item) { return <a className="col text-white bg-black p-3 list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id) }}>{item.id + " " + item.name + " " + "-"}</a> })}
 
 						</div>
 
 					</div>
 				</div>
 			</div>
+
 			<div className="bg-black col-6 m-auto p-4 d-flex justify-content-evenly">
 
 				<audio className="d-none" src={"https://assets.breatheco.de/apis/sound/" + url} ref={botoAudio}>
 				</audio>
 
-				<a className={"d-" + "block"} onClick={() => sig()} >
+				<a className="" onClick={() => sig()} >
 					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-left-square-fill" viewBox="0 0 16 16">
 						<path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm10.5 10V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4A.5.5 0 0 0 10.5 12z" />
 					</svg>
@@ -100,7 +115,7 @@ const Home = () => {
 					</a>
 				</div>
 
-				<a className={"d-" + "block "} /* onClick={() =>play()} */>
+				<a className="" /* onClick={() =>play()} */>
 					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-square-fill" viewBox="0 0 16 16">
 						<path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4v8z" />
 					</svg>
