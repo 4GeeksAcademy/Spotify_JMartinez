@@ -10,12 +10,15 @@ const Home = () => {
 
 
 
-
+	const Col = { background: "black", color: "white" }
 	const fondo = { height: "100%", width: "100%" }
 	const [caso, setCaso] = useState()
-	const [id, setId] = useState("")
+
 	const [repl, setRepl] = useState("block")
 	const [pausel, setPausel] = useState("none")
+	const [focus, setFocus] = useState("")
+
+
 
 	const botoAudio = useRef()
 
@@ -57,40 +60,84 @@ const Home = () => {
 
 
 	function sig() {
-		if (caso < cancion.length) {
+		if (caso < cancion.length + 1) {
+			document.getElementById(caso).style.opacity = "50%"
+			document.getElementById(caso).style.border = "3px solid red"
 			setCaso(caso + 1)
-			imprimir(caso)
-			selecto.style.background = "red"
-			console.log("hola")
+			imprimirN(caso)
+			devolverN(caso)
+		} else if (caso == cancion.length) {
 
-		} else if (caso == cancion.length - 1) {
-			imprimir(caso)
-			selecto.style.background = "red"
+			imprimirN(caso)
 			setCaso(caso)
-
-
-
-
 		}
+	}
+
+	function devolverN(num) {
+		let numi = num - 1
+		setCaso(caso + num)
+		document.getElementById(numi).style.opacity = "100%"
+		document.getElementById(numi).style.border = "3px solid black"
 	}
 
 	function back() {
 		if (caso > 0) {
+			setCaso(caso + 1)
+			document.getElementById(caso).style.opacity = "50%"
+			document.getElementById(caso).style.border = "3px solid red"
 			setCaso(caso - 1)
-			imprimir(caso)
+			imprimirB(caso)
+
+			devolverB(caso)
 		} else if (caso == 0) {
-			imprimir(caso)
+			imprimirB(caso)
 			setCaso(caso)
 
 
 		}
 	}
 
-	function imprimir(num) {
-		let ran = 'https://assets.breatheco.de/apis/sound/' + cancion[num].url
-		botoAudio.current.src = ran
+	function devolverB(val) {
+		let valor = val + 1
+		document.getElementById(valor).style.opacity = "100%"
+		document.getElementById(valor).style.border = "3px solid black"
+	}
+
+	function imprimirN(num) {
+
+		let ranN = 'https://assets.breatheco.de/apis/sound/' + cancion[num].url
+		botoAudio.current.src = ranN
 		console.log(botoAudio.current)
 		play()
+
+	}
+
+	function imprimirB(num) {
+
+		let ranB = 'https://assets.breatheco.de/apis/sound/' + cancion[num].url
+		botoAudio.current.src = ranB
+		console.log(botoAudio.current)
+		play()
+
+	}
+
+
+
+
+	function cambiar() {
+		if (focus !== "") {
+			for (let i = 0; i < cancion.length; i++) {
+				let monos = cancion[i].id
+				document.getElementById(monos).style.background = "black"
+				document.getElementById(monos).style.opacity = "100%"
+				document.getElementById(monos).style.border = "none"
+
+			}
+
+			document.getElementById(focus).style.border = "3px solid red"
+			document.getElementById(monos).style.opacity = "50%"
+
+		}
 
 	}
 
@@ -101,8 +148,8 @@ const Home = () => {
 			<div className=" mt-2">
 				<div className="col-6 m-auto " >
 					<div className="overflow-auto" style={stylebotton} id="list-tab" role="tablist"  >
-						<div className="list-group" id="list-tab" role="tablist" style={stylebotton}  >
-							{cancion.map(function (item) { return <a className="col text-white  p-3 opacity-75 list-group-item list-group-item-action" id={item.id} data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id), setId(item.id) }}>{item.id + " " + item.name + " " + "-"}</a> })}
+						<div className="list-group" id="list-tab" style={stylebotton}  >
+							{cancion.map(function (item) { return <a className="col text-with  p-3  list-group-item list-group-item-action" style={Col} id={item.id} data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id); setFocus(item.id); cambiar() }}>{item.id + " " + item.name + " " + "-"}</a> })}
 
 						</div>
 
