@@ -18,7 +18,7 @@ const Home = () => {
 	const [pausel, setPausel] = useState("none")
 	const [focus, setFocus] = useState("")
 
-
+	const [prueba, setPrueba] = useState([])
 
 	const botoAudio = useRef()
 
@@ -58,49 +58,68 @@ const Home = () => {
 
 	}, [])
 
+	useEffect(function () {
+
+		buclepin()
+
+
+
+	}, [caso])
+
+
+	function buclepin() {
+		let valor2 = []
+
+		for (let i = 0; i < cancion.length; i++) {
+			valor2 = cancion[i].id
+		}
+		console.log(valor2)
+
+
+	}
+
+
+	function pruebas() {
+		cancion.map((item, index) => (
+
+			document.getElementById(item.id).style.color = "white",
+			document.getElementById(item.id).style.opacity = "100%",
+			document.getElementById(item.id).style.border = "none"
+
+		))
+		console.log(prueba)
+
+	}
+
 
 	function sig() {
-		if (caso < cancion.length + 1) {
+		if (caso < cancion.length) {
+			pruebas()
 			document.getElementById(caso).style.opacity = "50%"
 			document.getElementById(caso).style.border = "3px solid red"
 			setCaso(caso + 1)
 			imprimirN(caso)
-			devolverN(caso)
-		} else if (caso == cancion.length) {
+
+		} else if (caso === cancion.length) {
 
 			imprimirN(caso)
 			setCaso(caso)
 		}
-	}
-
-	function devolverN(num) {
-		let numi = num - 1
-		setCaso(caso + num)
-		document.getElementById(numi).style.opacity = "100%"
-		document.getElementById(numi).style.border = "3px solid black"
 	}
 
 	function back() {
 		if (caso > 0) {
-			setCaso(caso + 1)
+			pruebas()
 			document.getElementById(caso).style.opacity = "50%"
 			document.getElementById(caso).style.border = "3px solid red"
 			setCaso(caso - 1)
 			imprimirB(caso)
-
-			devolverB(caso)
-		} else if (caso == 0) {
+		} else if (caso === 0) {
 			imprimirB(caso)
 			setCaso(caso)
 
 
 		}
-	}
-
-	function devolverB(val) {
-		let valor = val + 1
-		document.getElementById(valor).style.opacity = "100%"
-		document.getElementById(valor).style.border = "3px solid black"
 	}
 
 	function imprimirN(num) {
@@ -124,22 +143,22 @@ const Home = () => {
 
 
 
-	function cambiar() {
-		if (focus !== "") {
-			for (let i = 0; i < cancion.length; i++) {
-				let monos = cancion[i].id
-				document.getElementById(monos).style.background = "black"
-				document.getElementById(monos).style.opacity = "100%"
-				document.getElementById(monos).style.border = "none"
-
+	/* 	function cambiar() {
+			if (focus !== "") {
+				for (let i = 0; i < cancion.length; i++) {
+					let monos = cancion[i].id
+					document.getElementById(monos).style.background = "black"
+					document.getElementById(monos).style.opacity = "100%"
+					document.getElementById(monos).style.border = "none"
+	
+				}
+	
+				document.getElementById(focus).style.border = "3px solid red"
+				document.getElementById(monos).style.opacity = "50%"
+	
 			}
-
-			document.getElementById(focus).style.border = "3px solid red"
-			document.getElementById(monos).style.opacity = "50%"
-
-		}
-
-	}
+	
+		} */
 
 
 
@@ -149,7 +168,7 @@ const Home = () => {
 				<div className="col-6 m-auto " >
 					<div className="overflow-auto" style={stylebotton} id="list-tab" role="tablist"  >
 						<div className="list-group" id="list-tab" style={stylebotton}  >
-							{cancion.map(function (item) { return <a className="col text-with  p-3  list-group-item list-group-item-action" style={Col} id={item.id} data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id); setFocus(item.id); cambiar() }}>{item.id + " " + item.name + " " + "-"}</a> })}
+							{cancion.map(function (item) { return <a className="col text-with  p-3  list-group-item list-group-item-action" style={Col} id={item.id} data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id); setFocus(item.id) }}>{item.id + " " + item.name + " " + "-"}</a> })}
 
 						</div>
 
