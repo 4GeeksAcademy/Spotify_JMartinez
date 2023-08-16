@@ -16,7 +16,7 @@ const Home = () => {
 
 	const [repl, setRepl] = useState("block")
 	const [pausel, setPausel] = useState("none")
-	const [focus, setFocus] = useState("")
+	const [focus, setFocus] = useState(0)
 
 	const [prueba, setPrueba] = useState([])
 
@@ -62,9 +62,10 @@ const Home = () => {
 
 		buclepin()
 
-
-
 	}, [caso])
+
+
+
 
 
 	function buclepin() {
@@ -95,10 +96,10 @@ const Home = () => {
 	function sig() {
 		if (caso < cancion.length) {
 			pruebas()
-			document.getElementById(caso).style.opacity = "50%"
-			document.getElementById(caso).style.border = "3px solid red"
 			setCaso(caso + 1)
+			colores(caso)
 			imprimirN(caso)
+
 
 		} else if (caso === cancion.length) {
 
@@ -110,9 +111,9 @@ const Home = () => {
 	function back() {
 		if (caso > 0) {
 			pruebas()
-			document.getElementById(caso).style.opacity = "50%"
-			document.getElementById(caso).style.border = "3px solid red"
 			setCaso(caso - 1)
+			colores(caso)
+
 			imprimirB(caso)
 		} else if (caso === 0) {
 			imprimirB(caso)
@@ -140,25 +141,21 @@ const Home = () => {
 
 	}
 
+	function colores(num) {
+		console.log(document.getElementById(num));
+		document.getElementById(num).style.opacity = "50%"
+		document.getElementById(num).style.border = "3px solid red"
+
+	}
+
+	function cambiar(num) {
+		pruebas()
+		colores(num)
+		play()
+
+	}
 
 
-
-	/* 	function cambiar() {
-			if (focus !== "") {
-				for (let i = 0; i < cancion.length; i++) {
-					let monos = cancion[i].id
-					document.getElementById(monos).style.background = "black"
-					document.getElementById(monos).style.opacity = "100%"
-					document.getElementById(monos).style.border = "none"
-	
-				}
-	
-				document.getElementById(focus).style.border = "3px solid red"
-				document.getElementById(monos).style.opacity = "50%"
-	
-			}
-	
-		} */
 
 
 
@@ -168,7 +165,7 @@ const Home = () => {
 				<div className="col-6 m-auto " >
 					<div className="overflow-auto" style={stylebotton} id="list-tab" role="tablist"  >
 						<div className="list-group" id="list-tab" style={stylebotton}  >
-							{cancion.map(function (item) { return <a className="col text-with  p-3  list-group-item list-group-item-action" style={Col} id={item.id} data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id); setFocus(item.id) }}>{item.id + " " + item.name + " " + "-"}</a> })}
+							{cancion.map(function (item) { return <a className="col text-with  p-3  list-group-item list-group-item-action" style={Col} id={item.id} data-bs-toggle="list" role="tab" key={item.id} onClick={() => { setUrl(item.url); setCaso(item.id); cambiar(item.id) }}>{item.id + " " + item.name + " " + "-"}</a> })}
 
 						</div>
 
